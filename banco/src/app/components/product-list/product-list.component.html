@@ -1,0 +1,58 @@
+<!-- src/app/components/product-list/product-list.component.html -->
+<div class="main-container">
+  <div class="header">
+    <div class="title-container">
+      <i class="icon-wallet"></i>
+      <h1>BANCO</h1>
+    </div>
+  </div>
+  <div class="product-list-container">
+    <div class="search-and-add-container">
+      <div class="search-container">
+        <input type="text" placeholder="Search..." class="search-input" [(ngModel)]="searchText" />
+      </div>
+      <button (click)="showForm = true" class="add-product-button">Agregar</button>
+    </div>
+    <div class="table-container">
+      <table class="product-table">
+        <thead>
+        <tr>
+          <th>Logo <span class="icon">i</span></th>
+          <th>Nombre del producto <span class="icon">i</span></th>
+          <th>Descripción <span class="icon">i</span></th>
+          <th>Fecha de liberación <span class="icon">i</span></th>
+          <th>Fecha de reestructuración <span class="icon">i</span></th>
+          <th></th> <!-- Columna para el menú de acciones -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let product of paginatedProducts | filter:searchText">
+          <td><img [src]="product.logo" alt="{{ product.name }}" class="product-logo" /></td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.date_release }}</td>
+          <td>{{ product.date_revision }}</td>
+          <td>
+            <div class="dropdown">
+              <button class="dropdown-button" (click)="toggleDropdown($event, product.id)">⋮</button>
+              <div class="dropdown-content" [class.show]="dropdownProductId === product.id">
+                <button (click)="handleEdit(product)" class="action-button edit-button">Editar</button>
+                <button (click)="handleDelete(product.id)" class="action-button delete-button">Eliminar</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="pagination-container">
+        <span class="results-count">{{ paginatedProducts.length }} Resultados</span>
+        <select id="pagination-select" [(ngModel)]="itemsPerPage" (change)="onPageChange()">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+    </div>
+    <app-product-form *ngIf="showForm" [product]="selectedProduct" (save)="handleSave()"></app-product-form>
+  </div>
+</div>

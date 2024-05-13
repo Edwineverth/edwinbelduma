@@ -1,0 +1,23 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label>ID</label>
+    <input formControlName="id" [disabled]="isEdit" />
+    <div *ngIf="form.get('id')?.invalid && form.get('id')?.touched">
+      <p *ngIf="form.get('id')?.errors?.['required']">ID es requerido</p>
+      <p *ngIf="form.get('id')?.errors?.['minlength']">ID debe tener al menos 3 caracteres</p>
+      <p *ngIf="form.get('id')?.errors?.['maxlength']">ID no puede tener más de 10 caracteres</p>
+      <p *ngIf="form.get('id')?.errors?.['idExists']">ID ya existe</p>
+    </div>
+  </div>
+  <div>
+    <label>Nombre</label>
+    <input formControlName="name" />
+    <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+      <p *ngIf="form.get('name')?.errors?.['required']">Nombre es requerido</p>
+      <p *ngIf="form.get('name')?.errors?.['minlength']">Nombre debe tener al menos 5 caracteres</p>
+      <p *ngIf="form.get('name')?.errors?.['maxlength']">Nombre no puede tener más de 100 caracteres</p>
+    </div>
+  </div>
+  <!-- Otros campos similares -->
+  <button type="submit">{{ isEdit ? 'Actualizar' : 'Agregar' }}</button>
+</form>

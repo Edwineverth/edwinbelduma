@@ -1,0 +1,198 @@
+/* src/app/components/product-list/product-list.component.css */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.main-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-wallet {
+  background: url('/path/to/icon-wallet.svg') no-repeat center center;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.product-list-container {
+  width: 80%;
+  margin: 0 auto;
+  background-color: #F7F8FC; /* Fondo del contenedor */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-product-button {
+  background-color: #FFD700; /* Color del botón de agregar */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 700; /* Negrita */
+}
+
+.add-product-button:hover {
+  background-color: #FFCC00;
+}
+
+.search-and-add-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-container {
+  margin-right: 20px;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 300px; /* Limitar el ancho de la barra de búsqueda */
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.table-container {
+  background-color: #fff; /* Fondo blanco para el contenedor de la tabla */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th,
+.product-table td {
+  padding: 10px;
+  color: #929294;
+  text-align: left;
+  font-weight: 400; /* Normal */
+}
+
+.product-table th {
+  background-color: #f9fafc; /* Color de la fila de títulos */
+  color: #929294;
+  font-weight: 700; /* Negrita */
+}
+
+.product-table td {
+  background-color: #fff; /* Fondo blanco para las filas de datos */
+  border-bottom: 1px solid #E0E0E0; /* Color de las divisiones de la tabla */
+}
+
+.product-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.icon {
+  margin-left: 5px;
+  font-size: 12px;
+  color: #A0A0A0;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-button {
+  background: none;
+  border: none;
+  color: #8c8c91;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 120px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.dropdown-content button {
+  background: none;
+  border: none;
+  color: #929294;
+  padding: 10px 20px;
+  text-align: left;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dropdown-content button:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+.action-button {
+  background-color: #007BFF; /* Color de los botones de acción */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 700; /* Negrita */
+}
+
+.edit-button {
+  background-color: #28A745;
+}
+
+.delete-button {
+  background-color: #DC3545;
+}
+
+.action-button:hover {
+  opacity: 0.8;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: space-between; /* Alineación de los elementos */
+  align-items: center;
+  margin-top: 20px;
+}
+
+.results-count {
+  font-size: 16px;
+  color: #929294;
+}
+
+#pagination-select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
