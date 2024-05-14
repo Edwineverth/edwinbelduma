@@ -1,27 +1,52 @@
-# Banco
+# Proyecto Banco
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.1.
+Este es un proyecto en Angular que permite gestionar operaciones bancarias básicas.
 
-## Development server
+## Instalación
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. Clona este repositorio en tu máquina local.
+2. Abre una terminal en la carpeta del proyecto.
+3. Ejecuta el siguiente comando para instalar las dependencias:
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Scripts Disponibles
 
-## Build
+En el directorio del proyecto, puedes ejecutar los siguientes comandos:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### `npm start`
 
-## Running unit tests
+Ejecuta la aplicación en modo de desarrollo. Abre [http://localhost:4200](http://localhost:4200) en tu navegador para verla.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+La página se recargará automáticamente si realizas cambios en el código fuente.
 
-## Running end-to-end tests
+### `npm run build`
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Compila la aplicación para producción en la carpeta `dist/`. Listo para ser desplegado.
 
-## Further help
+### `npm run watch`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Compila la aplicación en modo de desarrollo y observa los cambios en los archivos. Útil durante el desarrollo.
+
+### `npm test`
+
+Ejecuta las pruebas unitarias utilizando Jest.
+
+### `npm run test:watch`
+
+Ejecuta las pruebas unitarias en modo de observación, permitiendo realizar cambios y ver los resultados automáticamente.
+
+### `npm run test:coverage`
+
+Ejecuta las pruebas unitarias y genera un informe de cobertura de código.
+
+## Contribución
+
+Si deseas contribuir a este proyecto, por favor sigue los pasos a continuación:
+
+1. Haz un fork del repositorio.
+2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+3. Realiza tus cambios y haz commits (`git commit -am 'Agrega nueva funcionalidad'`).
+4. Sube tus cambios (`git push origin feature/nueva-funcionalidad`).
+5. Abre un Pull Request.
+
+¡Gracias por contribuir!
