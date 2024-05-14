@@ -1,0 +1,29 @@
+/* src/app/components/header/header.component.css */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.header {
+  background-color: #FFFFFF; /* Fondo blanco para el header */
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-container img {
+  margin-right: 10px;
+  width: 44px;
+  height: 44px;
+}
+
+h1 {
+  font-size: 36px;
+  color: #2C3E50;
+  margin: 0;
+}

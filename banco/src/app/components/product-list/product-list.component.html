@@ -1,27 +1,24 @@
 <!-- src/app/components/product-list/product-list.component.html -->
 <div class="main-container">
-  <div class="header">
-    <div class="title-container">
-      <i class="icon-wallet"></i>
-      <h1>BANCO</h1>
-    </div>
-  </div>
   <div class="product-list-container">
     <div class="search-and-add-container">
       <div class="search-container">
         <input type="text" placeholder="Search..." class="search-input" [(ngModel)]="searchText" />
       </div>
-      <button (click)="showForm = true" class="add-product-button">Agregar</button>
+      <button (click)="navigateToAddProduct()" class="add-product-button">Agregar</button>
     </div>
     <div class="table-container">
       <table class="product-table">
         <thead>
         <tr>
-          <th>Logo <span class="icon">i</span></th>
-          <th>Nombre del producto <span class="icon">i</span></th>
-          <th>Descripción <span class="icon">i</span></th>
-          <th>Fecha de liberación <span class="icon">i</span></th>
-          <th>Fecha de reestructuración <span class="icon">i</span></th>
+          <th>Logo</th>
+          <th>Nombre del producto </th>
+          <th>Descripción <img ngSrc="assets/icon/information-icon.svg" alt="Info Icon" class="icon" height="44"
+                               width="44"/></th>
+          <th>Fecha de liberación <img ngSrc="assets/icon/information-icon.svg" alt="Info Icon" class="icon" height="44"
+                                       width="44"/></th>
+          <th>Fecha de reestructuración <img ngSrc="assets/icon/information-icon.svg" alt="Info Icon" class="icon" height="44"
+                                             width="44"/></th>
           <th></th> <!-- Columna para el menú de acciones -->
         </tr>
         </thead>
@@ -30,8 +27,8 @@
           <td><img [src]="product.logo" alt="{{ product.name }}" class="product-logo" /></td>
           <td>{{ product.name }}</td>
           <td>{{ product.description }}</td>
-          <td>{{ product.date_release }}</td>
-          <td>{{ product.date_revision }}</td>
+          <td>{{ product.date_release | dateFormat }}</td>
+          <td>{{ product.date_revision | dateFormat }}</td>
           <td>
             <div class="dropdown">
               <button class="dropdown-button" (click)="toggleDropdown($event, product.id)">⋮</button>
@@ -53,6 +50,13 @@
         </select>
       </div>
     </div>
-    <app-product-form *ngIf="showForm" [product]="selectedProduct" (save)="handleSave()"></app-product-form>
   </div>
+  <!-- Paginación -->
+
+  <app-confirm-dialog *ngIf="showModal"
+                      [message]="'¿Estás seguro de eliminar el producto ' + productToDelete?.name + '?'"
+                      [type]="'confirm'"
+                      (confirm)="confirmDelete()"
+                      (cancel)="closeModal()">
+  </app-confirm-dialog>
 </div>

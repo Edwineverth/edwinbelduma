@@ -1,16 +1,4 @@
 /* src/app/components/product-list/product-list.component.css */
-body {
-  font-family: 'Roboto', sans-serif;
-}
-
-.main-container {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.header {
-  margin-bottom: 20px;
-}
 
 .title-container {
   display: flex;
@@ -27,10 +15,9 @@ body {
 }
 
 .product-list-container {
-  width: 80%;
-  margin: 0 auto;
+  margin: 20px;
   background-color: #F7F8FC; /* Fondo del contenedor */
-  padding: 20px;
+  padding: 20px 70px 20px 70px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -108,8 +95,10 @@ body {
 
 .icon {
   margin-left: 5px;
-  font-size: 12px;
-  color: #A0A0A0;
+  width: 15px;
+  height: 15px;
+  color: #929294;
+  fill: #A0A0A0;
 }
 
 .dropdown {

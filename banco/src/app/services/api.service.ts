@@ -16,15 +16,15 @@ export class ApiService {
   }
 
   createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.API_URL, product);
+    return this.http.post<Product>(this.API_URL, product, { headers: { 'authorId': "1"}});
   }
 
   updateProduct(product: Product): Observable<Product> {
-    return this.http.put<Product>(this.API_URL, product);
+    return this.http.put<Product>(this.API_URL, product, { headers: { 'authorId': "1"}});
   }
 
   deleteProduct(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.API_URL}/${id}`);
+    return this.http.delete<void>(`${this.API_URL}/${id}`, { headers: { 'authorId': "1"}});
   }
 
   verifyProductId(id: string): Observable<boolean> {

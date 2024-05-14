@@ -1,23 +1,70 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div>
-    <label>ID</label>
-    <input formControlName="id" [disabled]="isEdit" />
-    <div *ngIf="form.get('id')?.invalid && form.get('id')?.touched">
-      <p *ngIf="form.get('id')?.errors?.['required']">ID es requerido</p>
-      <p *ngIf="form.get('id')?.errors?.['minlength']">ID debe tener al menos 3 caracteres</p>
-      <p *ngIf="form.get('id')?.errors?.['maxlength']">ID no puede tener más de 10 caracteres</p>
-      <p *ngIf="form.get('id')?.errors?.['idExists']">ID ya existe</p>
-    </div>
+<!-- src/app/components/product-form/product-form.component.html -->
+<div class="product-form-container">
+  <div class="form-container">
+    <h1>Formulario de Registro</h1>
+    <div class="separator"></div>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group" [ngClass]="{'invalid': productForm.get('id')?.invalid && productForm.get('id')?.touched}">
+          <label for="id">ID</label>
+          <input id="id" formControlName="id" type="text" />
+          <p *ngIf="productForm.get('id')?.errors?.['required']">ID es requerido</p>
+          <p *ngIf="productForm.get('id')?.errors?.['minlength']">ID debe tener al menos 3 caracteres</p>
+          <p *ngIf="productForm.get('id')?.errors?.['maxlength']">ID no puede tener más de 10 caracteres</p>
+          <p *ngIf="productForm.get('id')?.errors?.['idTaken']">ID ya está en uso</p>
+        </div>
+
+        <div class="form-group" [ngClass]="{'invalid': productForm.get('name')?.invalid && productForm.get('name')?.touched}">
+          <label for="name">Nombre</label>
+          <input id="name" formControlName="name" type="text" />
+          <p *ngIf="productForm.get('name')?.errors?.['required']">Nombre es requerido</p>
+          <p *ngIf="productForm.get('name')?.errors?.['minlength']">Nombre debe tener al menos 5 caracteres</p>
+          <p *ngIf="productForm.get('name')?.errors?.['maxlength']">Nombre no puede tener más de 100 caracteres</p>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" [ngClass]="{'invalid': productForm.get('description')?.invalid && productForm.get('description')?.touched}">
+          <label for="description">Descripción</label>
+          <input id="description" formControlName="description" type="text" />
+          <p *ngIf="productForm.get('description')?.errors?.['required']">Descripción es requerida</p>
+          <p *ngIf="productForm.get('description')?.errors?.['minlength']">Descripción debe tener al menos 10 caracteres</p>
+          <p *ngIf="productForm.get('description')?.errors?.['maxlength']">Descripción no puede tener más de 200 caracteres</p>
+        </div>
+
+        <div class="form-group" [ngClass]="{'invalid': productForm.get('logo')?.invalid && productForm.get('logo')?.touched}">
+          <label for="logo">Logo</label>
+          <input id="logo" formControlName="logo" type="text" />
+          <p *ngIf="productForm.get('logo')?.errors?.['required']">Logo es requerido</p>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" [ngClass]="{'invalid': productForm.get('date_release')?.invalid && productForm.get('date_release')?.touched}">
+          <label for="date_release">Fecha de Liberación</label>
+          <input id="date_release" formControlName="date_release" type="date" />
+          <p *ngIf="productForm.get('date_release')?.errors?.['required']">Fecha de liberación es requerida</p>
+        </div>
+
+        <div class="form-group" [ngClass]="{'invalid': productForm.get('date_revision')?.invalid && productForm.get('date_revision')?.touched}">
+          <label for="date_revision">Fecha de Revisión</label>
+          <input id="date_revision" formControlName="date_revision" type="date" />
+          <p *ngIf="productForm.get('date_revision')?.errors?.['required']">Fecha de revisión es requerida</p>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <button type="button" (click)="onReset()">Reiniciar</button>
+        <button type="submit" [disabled]="productForm.invalid">Enviar</button>
+      </div>
+
+      <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    </form>
   </div>
-  <div>
-    <label>Nombre</label>
-    <input formControlName="name" />
-    <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
-      <p *ngIf="form.get('name')?.errors?.['required']">Nombre es requerido</p>
-      <p *ngIf="form.get('name')?.errors?.['minlength']">Nombre debe tener al menos 5 caracteres</p>
-      <p *ngIf="form.get('name')?.errors?.['maxlength']">Nombre no puede tener más de 100 caracteres</p>
-    </div>
-  </div>
-  <!-- Otros campos similares -->
-  <button type="submit">{{ isEdit ? 'Actualizar' : 'Agregar' }}</button>
-</form>
+</div>
+<app-confirm-dialog *ngIf="showInfoModal"
+                    [message]="infoMessage"
+                    [type]="'info'"
+                    (confirm)="closeInfoModal()">
+</app-confirm-dialog>

@@ -1,32 +1,38 @@
 // src/app/components/product-list/product-list.component.ts
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiService } from '../../services/api.service';
 import { Product } from '../../models/product';
 import { ProductFormComponent } from '../product-form/product-form.component';
-import { RouterModule } from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FilterPipe } from '../../pipes/filter.pipe';
+import {DateFormatPipe} from "../../pipes/date-format.pipe";
+import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterModule, ProductFormComponent, FormsModule, FilterPipe],
+  imports: [CommonModule, HttpClientModule, RouterModule, ProductFormComponent, FormsModule, FilterPipe, NgOptimizedImage, DateFormatPipe, ConfirmDialogComponent],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   paginatedProducts: Product[] = [];
-  selectedProduct: Product | null = null;
-  showForm: boolean = false;
   searchText: string = '';
   itemsPerPage: number = 5;
   currentPage: number = 1;
   dropdownProductId: string | null = null; // Variable para manejar el estado del dropdown
+  showModal: boolean = false;
+  productToDelete: Product | null = null;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private router: Router) { }
+
+  navigateToAddProduct() {
+    this.router.navigate(['/add-product']);
+  }
 
   ngOnInit(): void {
     this.fetchProducts();
@@ -45,18 +51,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   handleEdit(product: Product): void {
-    this.selectedProduct = product;
-    this.showForm = true;
+    this.router.navigate(['/products/edit', product.id], { state: { product } });
   }
 
   handleDelete(id: string): void {
-    this.apiService.deleteProduct(id).subscribe(() => this.fetchProducts());
-  }
-
-  handleSave(): void {
-    this.showForm = false;
-    this.selectedProduct = null;
-    this.fetchProducts();
+    const product = this.products.find(p => p.id === id);
+    if (product) {
+      this.productToDelete = product;
+      this.showModal = true;
+    }
   }
 
   toggleDropdown(event: MouseEvent, productId: string): void {
@@ -94,5 +97,19 @@ export class ProductListComponent implements OnInit, OnDestroy {
   onPageChange(): void {
     this.currentPage = 1; // Reset to the first page when items per page changes
     this.paginateProducts();
+  }
+
+  confirmDelete(): void {
+    if (this.productToDelete) {
+      this.apiService.deleteProduct(this.productToDelete.id).subscribe(() => {
+        this.fetchProducts();
+        this.closeModal();
+      });
+    }
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+    this.productToDelete = null;
   }
 }
