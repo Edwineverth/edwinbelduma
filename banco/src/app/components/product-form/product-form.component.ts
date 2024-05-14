@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CommonModule, DatePipe} from "@angular/common";
-import {HttpClientModule} from "@angular/common/http";
-import {Product} from "../../models/product";
-import {ApiService} from "../../services/api.service";
-import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule, DatePipe } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
+import { Product } from "../../models/product";
+import { ApiService } from "../../services/api.service";
+import { ConfirmDialogComponent } from "../confirm-dialog/confirm-dialog.component";
+import {CustomValidators} from "../../validators/custom.validator";
 
 @Component({
   selector: 'app-product-form',
   standalone: true,
-  imports: [CommonModule,HttpClientModule, ReactiveFormsModule, DatePipe, ConfirmDialogComponent],
+  imports: [CommonModule, HttpClientModule, ReactiveFormsModule, DatePipe, ConfirmDialogComponent],
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.css']
 })
@@ -37,8 +38,17 @@ export class ProductFormComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
       description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
       logo: ['', Validators.required],
-      date_release: ['', Validators.required],
-      date_revision: ['', Validators.required]
+      date_release: ['', [Validators.required, CustomValidators.dateGreaterThanOrEqualToday()]],
+      date_revision: [{ value: '', disabled: true }, Validators.required]
+    });
+
+    this.productForm.get('date_release')?.valueChanges.subscribe(() => {
+      this.updateDateRevisionValidators();
+      if (this.productForm.get('date_release')?.valid) {
+        this.productForm.get('date_revision')?.enable();
+      } else {
+        this.productForm.get('date_revision')?.disable();
+      }
     });
 
     this.route.paramMap.subscribe(params => {
@@ -52,6 +62,7 @@ export class ProductFormComponent implements OnInit {
           product.date_release = this.datePipe.transform(product.date_release, 'yyyy-MM-dd') || '';
           product.date_revision = this.datePipe.transform(product.date_revision, 'yyyy-MM-dd') || '';
           this.productForm.patchValue(product);
+          this.updateDateRevisionValidators();
         } else {
           this.errorMessage = 'No se pudo cargar el producto para edición.';
         }
@@ -59,11 +70,21 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
+  private updateDateRevisionValidators(): void {
+    const dateReleaseControl = this.productForm.get('date_release');
+    const dateRevisionControl = this.productForm.get('date_revision');
+    if (dateRevisionControl && dateReleaseControl) {
+      dateRevisionControl.setValidators([Validators.required, CustomValidators.dateOneYearAfter(dateReleaseControl)]);
+      dateRevisionControl.updateValueAndValidity();
+    }
+  }
+
   onSubmit(): void {
     if (this.productForm.valid) {
       const productData: Product = this.productForm.value;
+      console.log(productData);
       if (this.isEditMode && this.productId) {
-        this.apiService.updateProduct( productData).subscribe(
+        this.apiService.updateProduct(productData).subscribe(
           response => {
             this.infoMessage = 'Producto actualizado exitosamente';
             this.successMessage = 'Producto actualizado exitosamente';
@@ -77,6 +98,17 @@ export class ProductFormComponent implements OnInit {
           }
         );
       } else {
+        this.apiService.verifyProductId(productData.id).subscribe(
+          isTaken => {
+            if (isTaken) {
+              this.infoMessage = 'El Id del producto ya existe intente con otro Id.';
+              this.showInfoModal = true;
+              this.successMessage = null;
+              this.productForm.reset();
+              return;
+            }
+          }
+        );
         this.apiService.createProduct(productData).subscribe(
           response => {
             this.infoMessage = 'Producto creado exitosamente';
